@@ -10,7 +10,7 @@
         <label for="email">Password:</label>
         <input type="password" name="password" v-model="password">
       </div>
-      <p v-if="feedback">{{ feedback }}</p>
+      <p v-if="feedback" class="red-text">{{ feedback }}</p>
       <div class="field">
         <button class="btn deep-purple">Login</button>
       </div>
@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import firebase from 'firebase'
+
 export default {
   name: 'Login',
   data(){
@@ -30,7 +32,19 @@ export default {
   },
   methods: {
     login(){
-      console.log(this.email, this.password)
+      if(this.email && this.password){
+        firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+        .then(cred => {
+          console.log(cred.user)
+          this.$router.push({ name: 'GMap' })
+        })
+        .catch(err => {
+          this.feedback = err.message
+        })
+        this.feedback = null
+      } else {
+        this.feedback = "Please fill in both fields."
+      }
     }
   }
 }
