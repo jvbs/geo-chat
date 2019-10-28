@@ -67,7 +67,7 @@ export default {
             this.feedback = "This alias is free to use"
           }
         })
-        console.log(this.slug)
+        // console.log(this.slug)
       } else {
         this.feedback = "You must enter all fields."
       }
